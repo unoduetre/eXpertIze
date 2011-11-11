@@ -1,0 +1,2 @@
+lives(cat).
+small(cat).

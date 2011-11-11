@@ -1,2 +1,2 @@
-colour(laptop,black).
-need_electricity(laptop).
+needs_electricity(laptop).
+small(laptop).

@@ -1,0 +1,2 @@
+lives(flower).
+small(flower).
