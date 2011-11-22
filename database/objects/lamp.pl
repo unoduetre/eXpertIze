@@ -1,2 +1,3 @@
 needs_electricity(lamp).
-small(lamp).
+turn_on(lamp).
+furniture(lamp).

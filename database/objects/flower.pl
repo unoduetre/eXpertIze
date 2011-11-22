@@ -1,2 +1,0 @@
-lives(flower).
-small(flower).
