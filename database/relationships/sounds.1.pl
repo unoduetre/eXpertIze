@@ -1,0 +1,1 @@
+question_about('Is its main function to create sounds?',sounds).

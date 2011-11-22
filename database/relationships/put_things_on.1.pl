@@ -1,0 +1,1 @@
+question_about('Do we usually put things (laptop, books, pen...) on it?',put_things_on).

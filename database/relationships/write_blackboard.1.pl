@@ -1,0 +1,1 @@
+question_about('Do we usually write with it on blackboard?',write_blackboard).

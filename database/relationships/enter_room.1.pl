@@ -1,0 +1,1 @@
+question_about('Do we use it when entering the room?',enter_room).

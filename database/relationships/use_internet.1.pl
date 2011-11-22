@@ -1,0 +1,1 @@
+question_about('Can it use internet?',use_internet).

@@ -1,0 +1,1 @@
+question_about('Is it intendend for writing?',write_with).

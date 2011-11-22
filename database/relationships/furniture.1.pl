@@ -1,0 +1,1 @@
+question_about('Is it considered as furniture?',furniture).

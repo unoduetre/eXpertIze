@@ -1,0 +1,1 @@
+question_about('Can it be connected to PC?',connect_pc).
