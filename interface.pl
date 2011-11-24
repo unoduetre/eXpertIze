@@ -1,5 +1,6 @@
 :- module(interface,[
-  answer_for_question/2
+  answer_for_question/2,
+  show_list/1
   ]).
 :- use_module(loader).
 
