@@ -62,7 +62,7 @@ number_of_objects_with_the_attribute(Q,A) :-
   length(L,Q),
   !.
 
-number_of_objects_with_the_attribute(0,A).
+number_of_objects_with_the_attribute(0,_).
 
 attributes_with_priority(Attr,_,[],[],Attr).
 attributes_with_priority(Attr,N,[H1|R1],[N|R2],T) :-

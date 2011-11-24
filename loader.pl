@@ -52,4 +52,4 @@ activate_objects_from_files([Path|Paths]) :-
   asserta(active(Object)),
   activate_objects_from_files(Paths).
 
-max_mistakes(0).
+max_mistakes(1).
