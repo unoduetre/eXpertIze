@@ -7,17 +7,12 @@ best_attribute(X) :- list_of_best_attributes(Y), chosen_from(X,Y).
 
 answer_about(Y,X) :- question_about(Z,X), answer_for_question(Y,Z).
 
-is_remembered_for(false,X) :- 
+is_remembered_for(Logical,X) :- 
   retract(question_about(_,X)),
-  assertz(doesnt_have_the_attribute(object_in_mind,X)).
-
-is_remembered_for(true,X) :- 
-  retract(question_about(_,X)),
-  assertz(has_the_attribute(object_in_mind,X)).
+  level_changed_for(Logical,X).
 
 list_of_best_attributes(Y) :- 
-  list_of_unknown_attributes(A),
-  list_of_priorities_of(P,A),
+  list_of_unknown_attributes_with_priorities(A,P),
   min_list(P,Min),
   attributes_with_priority(Y,Min,A,P).
 
@@ -27,22 +22,44 @@ chosen_from(X,Y) :-
   random(1,Zs,R),
   nth1(R,Y,X).
 
-list_of_unknown_attributes(L) :-
-  bagof(A,Q^question_about(Q,A),L).
+list_of_unknown_attributes_with_priorities(A,P) :-
+  setof(A,Q^question_about(Q,A),L),
+  list_of_numbers_of_objects_with_attributes(N,L),
+  list_of_relevant_attributes_with_priorities_based_on(A,P,L,N).
 
-list_of_priorities_of([],[]).
-list_of_priorities_of([H1|T1],[H2|T2]) :-
-  priority_of(H1,H2),
-  list_of_priorities_of(T1,T2).
+list_of_numbers_of_objects_with_attributes([],[]).
+list_of_numbers_of_objects_with_attributes([H1|T1],[H2|T2]) :-
+  number_of_objects_with_the_attribute(H1,H2),
+  list_of_numbers_of_objects_with_attributes(T1,T2).
+
+list_of_relevant_attributes_with_priorities_based_on([],[],[],[]).
+
+list_of_relevant_attributes_with_priorities_based_on(A,P,[X|R1],[Y|R2]) :-
+  Y =:= 0,
+  retract(question_about(_,X)),
+  list_of_relevant_attributes_with_priorities_based_on(A,P,R1,R2).
+
+list_of_relevant_attributes_with_priorities_based_on(A,P,[X|R1],[Y|R2]) :-
+  number_of_active_objects(N),
+  Y =:= N,
+  retract(question_about(_,X)),
+  list_of_relevant_attributes_with_priorities_based_on(A,P,R1,R2).
+
+list_of_relevant_attributes_with_priorities_based_on(A,P,[X|R1],[Y|R2]) :-
+  number_of_active_objects(N),
+  Y =\= 0,
+  Y =\= N,
+  Prio is abs(rdiv(N,2)-Y),
+  A = [X|Rest1],
+  P = [Prio|Rest2],
+  list_of_relevant_attributes_with_priorities_based_on(Rest1,Rest2,R1,R2).
 
 attributes_with_priority(Attr,N,A,P) :-
   attributes_with_priority(Attr,N,A,P,[]),!.
 
-priority_of(P,A) :-
+number_of_objects_with_the_attribute(Q,A) :-
   setof(O,attribute_is_defined_for_the_active_object(A,O),L),
-  length(L,Q),
-  number_of_active_objects(N),
-  P is abs(rdiv(N,2)-Q).
+  length(L,Q).
 
 attributes_with_priority(Attr,_,[],[],Attr).
 attributes_with_priority(Attr,N,[H1|R1],[N|R2],T) :-
@@ -54,66 +71,53 @@ attribute_is_defined_for_the_active_object(A,B) :-
   active(B),
   attribute_is_defined_for(A,B).
 
+attribute_is_undefined_for_the_active_object(A,B) :-
+  active(B),
+  \+ attribute_is_defined_for(A,B).
+
 number_of_active_objects(N) :-
-  bagof(O,active(O),L),
+  setof(O,active(O),L),
   length(L,N).
 
 attribute_is_defined_for(A,B) :-
   F =.. [A,B],
-  database:F,!.
+  database:F,
+  !.
 
-%attributes_nearest_to_the_half_of_the_number_of_objects(Y,A,P) :-
-%  distances_from_the_halt_of_the_number_of_objects(D,P),
-%  min_list(D,Min),
-%  attributes_with_distance_from_the_list(Y,Min,A,D).
-%
-%distances_from_the_halt_of_the_number_of_objects([],[]) :-
-%distances_from_the_halt_of_the_number_of_objects([HD|TD],[HP|TP]) :-
-%  number_of_active_objects(N),
-%  HD is abs(HP-rdev(N,2)),
-%  distances_from_the_halt_of_the_number_of_objects(TD,TP).
-% A is an unknown attribute if and only if 
-% we didn't asked the question about it yet. 
-%unknown_attribute(A) :- question_about(_,A).
-%
-%known_attribute(A) :- \+ unknown_attribute(A).
-%
-%sum(N,[]) :- N is 0.
-%sum(N,[A|B]) :-
-%  sum(M,B), N is M + A.
-%
-%similar_attribute_with_coefficient(Attribute,Object,1) :-
-%  has_the_attribute(object_in_mind,Attribute),
-%  attribute_is_defined_for(Attribute,Object).
-%
-%similar_attribute_with_coefficient(Attribute,Object,0) :-
-%  has_the_attribute(object_in_mind,Attribute),
-%  \+ attribute_is_defined_for(Attribute,Object).
-%
-%similar_attribute_with_coefficient(Attribute,Object,1) :-
-%  doesnt_have_the_attribute(object_in_mind,Attribute),
-%  \+ attribute_is_defined_for(Attribute,Object).
-%
-%similar_attribute_with_coefficient(Attribute,Object,0) :-
-%  doesnt_have_the_attribute(object_in_mind,Attribute),
-%  attribute_is_defined_for(Attribute,Object).
-%
-%similar_to_object_in_mind_with_coefficient(A,N) :- 
-%  forall(M,similar_attribute_with_coefficient(A,M),L),
-%  sum(N,L).
-%
-%
-%% if it's possible to proove the fact about an object in multiple ways the following code is wrong! BUT, JUST USE A CUT EACH TIME IN THE DATABASE!!!
-%is_a_number_of_objects_with_the_attribute(M,X) :-
-%  findall(Y,attribute_is_defined_for(X,Y),L),
-%  length(L,M).
-%
-%is_a_number_of_objects_with_some_attribute_of_object_in_mind(M) :-
-%  has_the_attribute(object_in_mind,X),
-%  is_a_number_of_objects_with_an_attribute(M,X).
-%
-%is_a_number_of_objects_without_some_attribute_of_object_in_mind(M) :-
-%  doesnt_have_the_attribute(object_in_mind,X),
-%  is_a_number_of_objects_with_an_attribute(N,X),
-%  number_of_objects(P),
-%  M is P - N.
+level_changed_for(false,A) :-
+  setof(O,attribute_is_defined_for_the_active_object(A,O),L),
+  level_lowered_for_all_in(L).
+
+level_changed_for(true,A) :-
+  setof(O,attribute_is_undefined_for_the_active_object(A,O),L),
+  level_lowered_for_all_in(L).
+
+level_lowered_for_all_in([]).
+level_lowered_for_all_in([H|R]) :-
+  level_lowered_for(H),
+  level_lowered_for_all_in(R).
+
+level_lowered_for(O) :-
+  max_mistakes(0),
+  retract(active(O)),
+  !.
+
+level_lowered_for(O) :-
+  \+ number_of_mistakes_for(_,O),
+  asserta(number_of_mistakes_for(1,O)),
+  !.
+
+level_lowered_for(O) :-
+  max_mistakes(M),
+  number_of_mistakes_for(N,O),
+  M >= N,
+  retract(active(O)),
+  !.
+
+level_lowered_for(O) :-
+  number_of_mistakes_for(N,O),
+  M is N+1,
+  retract(number_of_mistakes_for(N,O)),
+  asserta(number_of_mistakes_for(M,O)),
+  !.
+

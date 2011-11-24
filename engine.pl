@@ -8,6 +8,7 @@
 :- dynamic(has_the_attribute/2).
 :- dynamic(doesnt_have_the_attribute/2).
 :- dynamic(active/1).
+:- dynamic(number_of_mistakes_for/2).
 
 :- activate_objects_in('database/objects').
 :- load_files_from_the_directory('engine').
