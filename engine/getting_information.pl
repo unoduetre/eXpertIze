@@ -59,7 +59,10 @@ attributes_with_priority(Attr,N,A,P) :-
 
 number_of_objects_with_the_attribute(Q,A) :-
   setof(O,attribute_is_defined_for_the_active_object(A,O),L),
-  length(L,Q).
+  length(L,Q),
+  !.
+
+number_of_objects_with_the_attribute(0,A).
 
 attributes_with_priority(Attr,_,[],[],Attr).
 attributes_with_priority(Attr,N,[H1|R1],[N|R2],T) :-
