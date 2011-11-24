@@ -1,1 +1,2 @@
 frurniture(X).
+XZVSDDHDJDGHJDGFDFHD
