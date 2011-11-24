@@ -1,3 +1,3 @@
-turn_on(radiator).
-fixed(radiator).
-heat(radiator).
+turn_on_off(radiator).
+fixed_in_position(radiator).
+mainly_heats_room(radiator).

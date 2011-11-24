@@ -1,1 +1,0 @@
-question_about('Can we open/close it?', open).

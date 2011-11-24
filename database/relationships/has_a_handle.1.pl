@@ -1,0 +1,1 @@
+question_about('Does it have a handle?',has_a_handle).

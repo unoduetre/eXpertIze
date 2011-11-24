@@ -1,3 +1,2 @@
-in_backpack(sponge).
-erase(sponge).
-erase_blackboard(sponge).
+can_put_in_backpack(sponge).
+erase_chalc(sponge).

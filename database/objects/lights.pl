@@ -1,4 +1,4 @@
 furniture(lights).
-fixed(lights).
-needs_electricity(lights).
-turn_on(lights).
+fixed_in_position(lights).
+can_use_electricity(lights).
+turn_on_off(lights).

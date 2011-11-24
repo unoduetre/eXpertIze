@@ -1,1 +1,0 @@
-question_about('Does it need ink to function?',ink).

@@ -1,1 +1,0 @@
-question_about('Is it fixed in one position in the room?',fixed).

@@ -1,0 +1,1 @@
+question_about('Is its main function to keep the room warm?',mainly_heats_room).

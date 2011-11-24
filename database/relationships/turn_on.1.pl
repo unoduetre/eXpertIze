@@ -1,1 +1,0 @@
-question_about('Can we turn it on/off?',turn_on).

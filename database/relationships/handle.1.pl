@@ -1,1 +1,0 @@
-question_about('Does it have a handle?',handle).

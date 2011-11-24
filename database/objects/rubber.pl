@@ -1,3 +1,2 @@
-in_pocket(rubber).
-erase(rubber).
+can_put_in_pocket(rubber).
 erase_pencil(rubber).

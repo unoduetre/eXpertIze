@@ -1,1 +1,0 @@
-question_about('Is its main function to keep the room warm?',heat).

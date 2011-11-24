@@ -1,1 +1,0 @@
-question_about('Do we use it to erase things we wtritten?',erase).

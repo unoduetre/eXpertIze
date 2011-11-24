@@ -1,3 +1,3 @@
-in_backpack(book).
+can_put_in_backpack(book).
 open(book).
-pages(book).
+consist_of_pages(book).

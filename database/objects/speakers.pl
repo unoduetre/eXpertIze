@@ -1,4 +1,4 @@
-connect_pc(speakers).
-needs_electricity(speakers).
-sounds(speakers).
-turn_on(speakers).
+can_connect_to_pc(speakers).
+can_use_electricity(speakers).
+produces_sound(speakers).
+turn_on_off(speakers).

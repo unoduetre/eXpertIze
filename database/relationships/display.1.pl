@@ -1,1 +1,0 @@
-question_about('Is it used to display things?',display).

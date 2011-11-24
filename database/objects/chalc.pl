@@ -1,3 +1,2 @@
-in_pocket(chalc).
-write_with(chalc).
-write_blackboard(chalc).
+can_put_in_pocket(chalc).
+write_with_it_on_blackboard(chalc).

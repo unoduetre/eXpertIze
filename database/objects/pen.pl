@@ -1,3 +1,2 @@
-in_pocket(pen).
-write_with(pen).
-ink(pen).
+can_put_in_pocket(pen).
+needs_ink_to_function(pen).
