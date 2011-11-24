@@ -1,0 +1,1 @@
+frurniture(X).
