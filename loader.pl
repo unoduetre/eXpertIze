@@ -53,4 +53,4 @@ activate_objects_from_files([Path|Paths]) :-
   asserta(possibility_for(1,Object)),
   activate_objects_from_files(Paths).
 
-possibility_influence(1).
+possibility_influence(0.3).

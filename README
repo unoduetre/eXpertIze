@@ -1,1 +1,54 @@
-A student project
+The program is a guessing machine.
+The calculation of priority of next question uses the following parameters:
+possibility_reduction(Value,Attribute) (for each Attribute), and
+possibility_influence(Influence). Both Value and Influence are numbers
+between 0 (included) and 1 (included). The meaning is as follows:
+
+Value is a strength of a question. Some questions are very clear,
+and all people would give the same answer. Those questions have value 1.
+An example of such a question is: Does one plus one equal two?.
+Other question are weaker, people can give different answers for them.
+An example could be: Is a tiger a big animal? The question depends
+on what people consider big. A tiger is big in comparison with a mouse,
+but it's small in comparison with a whale. A question with the value 0 is
+useless.
+
+Influence is a general value which shows how strongly Value influences
+priorities of questions. The value 0 means Value of a question
+doesn't influence which question to choose next, the value of 1
+tells that useless questions be asked last.
+
+Example:
+Let's assume we have 10 objects:
+A,B,C,D,E,F,G,H,I,J
+we have two questions:
+Q1 with the Value 1
+and
+Q2 with the Value 0
+Let's assume 5 object have answers yes for both questions,
+and 5 have answers no.
+If Influence is equal to 0 the order of question will be random.
+If Influence is equal to 1
+rdiv(N/2)=5
+5-5=0
+0-1*10*1/2=-5 - the priority of the first question
+0-1*10*0/2=0 - the priority of the second question
+The first question would be asked first.
+No assume the following situation:
+the number of object which have answers yes for the first question is 0,
+for the second question is 5.
+If Influence equals 0 the second question would be asked first
+If Influence equals 1
+5-0=5
+5-5=0 - the priority of the first question
+5-5=0
+0-0=0 - the priority of the second question
+Both questions have the same priority.
+(Of course the first question would be removed by algorithm before getting
+to this part of code, but it's unimportant for our calculations,
+we could use 1 instead of 0, but calculations with 0 explain the main
+idea better).
+
+
+
+
