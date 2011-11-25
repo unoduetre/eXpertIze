@@ -1,1 +1,1 @@
-question_about('Do we sit behind it?', sit_behind_it).
+question_about('Do we sit at it?', sit_behind_it).

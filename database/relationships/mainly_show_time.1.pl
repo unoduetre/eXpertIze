@@ -1,0 +1,1 @@
+question_about('Is its main function to show us time?',mainly_show_time).
