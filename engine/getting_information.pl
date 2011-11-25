@@ -48,10 +48,10 @@ list_of_relevant_attributes_with_priorities_based_on(A,P,[X|R1],[Y|R2]) :-
 list_of_relevant_attributes_with_priorities_based_on(A,P,[X|R1],[Y|R2]) :-
   possibility_reduction(M,X),
   number_of_active_objects(N),
-  level_of_lack_of_possibility_influence(S),
+  possibility_influence(S),
   Y =\= 0,
   Y =\= N,
-  Prio is abs(rdiv(N,2)-Y)*(S-M),
+  Prio is abs(rdiv(N,2)-Y)-S*M,
   A = [X|Rest1],
   P = [Prio|Rest2],
   list_of_relevant_attributes_with_priorities_based_on(Rest1,Rest2,R1,R2).
