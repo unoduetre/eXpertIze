@@ -9,7 +9,7 @@ answer_about(Y,X) :- question_about(Z,X), answer_for_question(Y,Z).
 
 is_remembered_for(Logical,X) :- 
   retract(question_about(_,X)),
-  level_changed_for(Logical,X).
+  possibility_changed_for(Logical,X).
 
 list_of_best_attributes(Y) :- 
   list_of_unknown_attributes_with_priorities(A,P),
@@ -87,40 +87,34 @@ attribute_is_defined_for(A,B) :-
   database:F,
   !.
 
-level_changed_for(false,A) :-
+possibility_changed_for(false,A) :-
   setof(O,attribute_is_defined_for_the_active_object(A,O),L),
-  level_lowered_for_all_in(L).
+  possibility_reduction(R,A),
+  possibility_lowered_for_all_in_by(L,R).
 
-level_changed_for(true,A) :-
+possibility_changed_for(true,A) :-
   setof(O,attribute_is_undefined_for_the_active_object(A,O),L),
-  level_lowered_for_all_in(L).
+  possibility_reduction(R,A),
+  possibility_lowered_for_all_in_by(L,R).
 
-level_lowered_for_all_in([]).
-level_lowered_for_all_in([H|R]) :-
-  level_lowered_for(H),
-  level_lowered_for_all_in(R).
+possibility_lowered_for_all_in_by([],_).
+possibility_lowered_for_all_in_by([H|R],P) :-
+  possibility_lowered_for_by(H,P),
+  possibility_lowered_for_all_in_by(R,P).
 
-level_lowered_for(O) :-
-  max_mistakes(0),
-  retract(active(O)),
-  !.
+possibility_lowered_for_by(O,R) :-
+  possibility_for(P,O),
+  N is P - R,
+  retract(possibility_for(P,O)),
+  asserta(possibility_for(N,O)),
+  impossible_inactivated(O).
 
-level_lowered_for(O) :-
-  \+ number_of_mistakes_for(_,O),
-  asserta(number_of_mistakes_for(1,O)),
-  !.
+impossible_inactivated(O) :-
+  possibility_for(P,O),
+  P =< 0,
+  retract(active(O)).
 
-level_lowered_for(O) :-
-  max_mistakes(M),
-  number_of_mistakes_for(N,O),
-  M >= N,
-  retract(active(O)),
-  !.
-
-level_lowered_for(O) :-
-  number_of_mistakes_for(N,O),
-  M is N+1,
-  retract(number_of_mistakes_for(N,O)),
-  asserta(number_of_mistakes_for(M,O)),
-  !.
+impossible_inactivated(O) :-
+  possibility_for(P,O),
+  P > 0.
 
