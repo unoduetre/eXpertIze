@@ -53,3 +53,5 @@ clean:
 	rm -f $(nazwa).snm
 	rm -f $(nazwa).toc
 	rm -f $(nazwa).nav
+	rm -f $(nazwa).bbl
+	rm -f $(nazwa).blg
