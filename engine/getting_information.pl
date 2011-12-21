@@ -85,8 +85,9 @@ number_of_active_objects(N) :-
   length(L,N).
 
 attribute_is_defined_for(A,B) :-
+  depth_limit(D),
   F =.. [A,B],
-  database:F,
+  database:call_with_depth_limit(F,D,_),
   !.
 
 possibility_changed_for(false,A) :-

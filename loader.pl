@@ -2,7 +2,8 @@
   load_files_from_the_directory/1,
   allow_multifile_predicates_for_the_directory/1,
   activate_objects_in/1,
-  possibility_influence/1
+  possibility_influence/1,
+  depth_limit/1
   ]).
 :- module_transparent 
   load_files_from_the_directory/1,
@@ -11,7 +12,8 @@
   allow_multifile_for/1,
   activate_objects_in/1,
   activate_objects_from_files/1,
-  possibility_influence/1.
+  possibility_influence/1,
+  depth_limit/1.
 
 list_of_prolog_files_in_a_directory(Files,Directory) :-
   atom_concat(Directory,'/*.pl',Wildcard),
@@ -54,3 +56,4 @@ activate_objects_from_files([Path|Paths]) :-
   activate_objects_from_files(Paths).
 
 possibility_influence(0.3).
+depth_limit(100).
