@@ -24,13 +24,70 @@ As far as 20 questions problem existing algorithmic solutions are concerned the 
 
 We decided to use a different method of solving the problem. We used Prolog programming language for implementing a knowledge base and a system operating over it. Prolog is a general purpose logic programming language used in many domains, especially in artificial intelligence and computational linguistics. It was created by \citet{Prolog} and implements a subset of first order logic called horn clauses, with a method of reasoning called SLD-resolution invented by \citet{SLD}. For more information about prolog please consult \citet{Prolog1}, \citet{Prolog2}, \citet{Prolog2}. As a logic programming language prolog have many advantages when creating artificial intelligence and computational linguistics programs. One of them is that it is very easy to implement reasoning in prolog programs. Another one is the database operations can be coded inside the language, and transparent database can be part of a program. These characteristics made Prolog very popular tool for creating logical reasoning programs, expert systems and other types of rule based systems. The addition of definite clause grammars to the syntax of Prolog allowed it to be used as an efficient tool in natural language processing systems. Despite the reputation of logic and rule based systems as beeing unable to implement fuzziness it is actually quite simple to do that in prolog. Because of these and other features of Prolog we decided to use it to create our system. Although \citet{20Q} states that: ''another major problem that is readily apparent in such systems is their incapability to handle inaccurate or misleading information if a player answers one question inaccurately this will cause the system to pursue the wrong branch of the decision tree leading it to the wrong answer or guess'', it was very easy to overcome this difficulty by implementing specific ''soft'' rule of reasoning. What we gained is a clear and easy to modify structure of the knowledge base, which was absent in the system based on neural networks.
 \section{System architecture}
+\subsection{Engine}
+
+\subsection{Knowledge base}
 %Database part - Joze. Mateusz - Engine
+When we were designing our system, we decided that it will consist out of two parts - engine and knowledge base. In this section the knowledge base will be described in more detail.
+
+Why do we need a knowledge base? The system is asking questions, and this questions must be stored somewhere. But, if this knowledge base would store only questions, it would be called a database. So, our knowledge base store more than just questions.
+
+\begin{itemize}
+\item  \textbf{Relations} - Each of this relations stored in knowledge base is representing a question about the object in mind. We can say that each question about the object is representing one attribute of an object. Here is an example of one relation named \verb|can_put_in_backpack.1.pl|.
+
+\begin{lstlisting}[caption=Relation can\_put\_in\_backpack.1.pl,label=lst:relationexample]
+
+question_about('Can all variations of it be put in a backpack?',can_put_in_backpack).
+possibility_reduction(0.3,can_put_in_backpack).
+can_put_in_backpack(X) :- can_put_in_pocket(X).
+\end{lstlisting}
+
+In this relation are stored: the question about the attribute ( \verb|'Can all variations of it be put in a backpack?'|), name of the attribute (\verb|can_put_in_backpack|), and a possibility reduction value(\verb|0.3|). The possibility reduction value is always defined as a value between 0 an 1, and represents how good, or how bad is the question. This question 'Can all variations of it be put in a backpack' is not very good, because if for example a user have in mind a projector, he might answer with yes. But the question was called 'Can \textbf{all variations} of it be putted into a backpack', so the answer should be no, because there are big cinema projectors, which can not be putted into a backpack. Problem is because not all users would think of these big projectors, so they will answer in a wrong way. Because we want to avoid the influence of users making mistakes in answering the questions, we set this possibility reduction value. This value 0.3 means, that if user answers with no, engine will 'add 0.3 to all the objects that have this attribute. And when object have this value more than 1, the engine stops asking questions about this object. So, it is good if bad questions have possibility reduction value less than 0.5 and good questions, such as ('Is it an animal?') should have possibility reduction value more than 0.5. With this value, we allow a user to make mistakes when answering the questions.
+In relation \verb|can_put_in_backpack.1.pl|. there is also, line '\verb|can_put_in_backpack(X) :- can_put_in_pocket(X).|'. This means that if something can be putted into a pocket, than it also can be putted into a backpack. This enables the engine advanced reasoning. 
+
+
+\item \textbf{Objects} - Our knowledge base, consist only of few objects. We created small but complete base of objects. But the aim was not to create a big database, but to create a good system, so the knowledge base could be expanded in future. Here is an example of an object in the knowledge base.
+\begin{lstlisting}[caption=Object book.pl,label=lst:objectexample]
+can_put_in_backpack(book).
+can_be_opened_closed(book).
+consist_of_pages(book).
+\end{lstlisting}
+Each object that is stored, includes the information about the names of the attributes this object has.
+\end{itemize}
+
+We created a simple window application called \textbf{Knowledge base manager}, for work with objects and attributes. The application is very simple and it just represent an idea in which direction this system could be developed.
+
+    \begin{figure}[h]
+      \begin{center}
+		\includegraphics[scale=0.55]{img/KnowledgeBaseManagerPicture.png}	
+\caption{Knowledge base manager application
+\label{fig:SearchOptions}}
+      \end{center}
+    \end{figure}
+    
+As showed in the figure, this application allows object manipulation, which is, assigning attributes to the objects or removing attributes from the objects.
+
+
+How to build a good knowledge base? There is an article about 20 question game \citet{howToAskQuestions} that helped us build the knowledge base. Here we found some good advices, for example which questions should be asked at the beginning. An example of an very bad question is 'Is it big?'. This is bad question because it is a question of degree, when it should be a question of comparison. So better question is 'Is it bigger than a backpack'.
+
 \section{Limitations}
 %Joze
-
+As said before, the usage of this system is general. It could be used for entertainment or as an some other tool. One limitation this system has is the knowledge base. For now, the objects and relations (attributes) must be putted in manually. Second limitation is that the  objects are not learned about their attributes by our system, but the attributes must be assigned manually. Another limitation is that, a user could not answer the question only with 'yes' or 'no'. So there is no multiple possible answers such as 'I do not know' and so on.
+ 
 \section{Conclusions and future work}
 % Joze
+There is a lot of things in domain of this system that could be improved. Here is some suggestions.
 
+\begin{itemize}
+\item \textbf{Filling the knowledge base} - The knowledge base could be filled automatically, using information found on the internet. For example, it could use wikipedia to learn about objects and their attributes. That is how the knowledge base could be expanded. Application 'Knowledge base manager' that was created could be improved. 
+
+\item \textbf{More answers} - We could offer a user more different possible answers to the question. For example 'I do not want to answer'. This feature would reduce mistakes that users make when they are forced in 'yes or no' answers.
+
+\item \textbf{Different questions} - The development of this feature is probably more complex, but it would be useful. System could be upgraded in a way, that it would ask questions like 'If you could describe an object with one word, what it would be?'. So the system could connect the answer with the object user have in mind.
+
+Without doubt, the system that was developed has a lot of potential. The algorithm of choosing questions can be used in much more bigger knowledge base. So the future work should be focused in the expansion of the knowledge base. 
+
+\end{itemize}
 %The following references are just examples.
 \begin{thebibliography}{10}
 \bibitem[Memon(2011)]{Memon}Memon, N. 2011. \textsl{Information and Knowledge Management} --- lecture notes. University of Southern Denmark, Odense. \url{http://www.mip.sdu.dk/~memon/IKM_2011.htm}
@@ -42,6 +99,7 @@ We decided to use a different method of solving the problem. We used Prolog prog
 \bibitem[XXX(2000)]{Prolog1}XXX
 \bibitem[XXX(2000)]{Prolog2}XXX
 \bibitem[XXX(2000)]{Prolog3}XXX
+\bibitem[Eivind Nilssen (2005)]{howToAskQuestions} Nilssen, E. 2005. The game of twenty questions. \url{http://barelybad.com/20_questions.htm}
 %\bibitem[Bernacki i in.(2005)]{BWG}Bernacki, M., Włodarczyk, P., Gołda, A. 2005. \textsl{Principles of training multi-layer neural network using backpropagation.} Katedra Elektroniki AGH, Kraków. \url{http://galaxy.agh.edu.pl/~vlsi/AI/backp_t_en/backprop.html}
 %\bibitem[Frank i Asuncion(2010)]{FA}Frank, A., Asuncion, A. 2010. \textsl{{UCI} Machine Learning Repository: Iris Data Set.} University of California, Irvine, School of Information and Computer Science. \url{http://archive.ics.uci.edu/ml/datasets/Iris}
 %\bibitem[Rojas(1996)]{RR}Rojas, R. 1996. \textsl{Neural Networks --- A Systematic Introduction.} Springer-Verlag, Berlin.
