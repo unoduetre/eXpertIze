@@ -1,1 +1,1 @@
-swipl -qs run.pl
+cmd /K swipl -qs run.pl
