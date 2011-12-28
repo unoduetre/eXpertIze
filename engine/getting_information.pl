@@ -1,4 +1,4 @@
-new_information :- 
+got_new_information :- 
   best_attribute(X),
   answer_about(Y,X),
   is_remembered_for(Y,X).
@@ -87,7 +87,7 @@ number_of_active_objects(N) :-
 attribute_is_defined_for(A,B) :-
   depth_limit(D),
   F =.. [A,B],
-  database:call_with_depth_limit(F,D,E),
+  knowledgebase:call_with_depth_limit(F,D,E),
   E \= depth_limit_exceeded,
   !.
 

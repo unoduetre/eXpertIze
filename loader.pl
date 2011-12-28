@@ -12,6 +12,7 @@
   allow_multifile_for/1,
   activate_objects_in/1,
   activate_objects_from_files/1,
+  possibility_asserted_for/1,
   possibility_influence/1,
   depth_limit/1.
 
@@ -52,8 +53,16 @@ activate_objects_from_files([Path|Paths]) :-
   file_name_extension(Base,_,File),
   downcase_atom(Base,Object),
   asserta(active(Object)),
-  asserta(possibility_for(1,Object)),
+  possibility_asserted_for(Object),
   activate_objects_from_files(Paths).
 
+possibility_asserted_for(Object) :-
+  knowledgebase:possibility_for(_,Object).
+
+possibility_asserted_for(Object) :-
+  \+knowledgebase:possibility_for(_,Object),
+  knowledgebase:asserta(possibility_for(1,Object)).
+
+:- prompt(_,'').
 possibility_influence(0.3).
 depth_limit(100).
