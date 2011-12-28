@@ -1,7 +1,8 @@
 *.swp
 *.synctex
 *.toc
-*.pdf
+report/report/*.pdf
+report/report/*.eps
 *.aux
 *.bbl
 *.out
