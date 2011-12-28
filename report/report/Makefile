@@ -1,7 +1,7 @@
 
 nazwa = main
 documents =
-figures = 
+figures = KnowledgeBaseManagerPicture.png
 
 documents_tex = $(addsuffix .tex,$(documents)) $(addsuffix .tex,$(nazwa))
 figures_eps = $(addsuffix .eps,$(basename $(figures)))
