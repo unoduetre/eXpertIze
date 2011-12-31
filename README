@@ -1,4 +1,10 @@
 The program is a guessing machine.
+1. Think about an object.
+2. Run either run.sh or run.bat
+3. Answer the questions with yes or no. If the answer isn't yes or no, choose no.
+4. The program should guess the name of the object you have in mind.
+
+Below is a description of the algorithm.
 The calculation of priority of next question uses the following parameters:
 possibility_reduction(Value,Attribute) (for each Attribute), and
 possibility_influence(Influence). Both Value and Influence are numbers

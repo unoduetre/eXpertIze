@@ -1,5 +1,5 @@
 :- module(engine,[
-  main_loop/0
+  main/0
   ]).
 :- use_module(loader).
 :- use_module(knowledgebase).
