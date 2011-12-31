@@ -8,7 +8,7 @@ object_possibility_pairs_list_from([H1|R1],[H2|R2]) :-
   
 
 main_debug_loop :- 
-  engine:new_information,
+  engine:got_new_information,
   setof(O,engine:active(O),L),
   object_possibility_pairs_list_from(P,L),
   interface:show_list(P),
